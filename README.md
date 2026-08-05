@@ -41,32 +41,38 @@ limitations under the License.
 
 <!-- /.intro -->
 
-<section class="installation">
 
-## Installation
-
-```bash
-npm install @stdlib/blas-ext-base-ztriu
-```
-
-Alternatively,
-
--   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
--   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
--   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
-
-The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
-
-To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
-
-</section>
 
 <section class="usage">
 
 ## Usage
 
+To use in Observable,
+
 ```javascript
-var ztriu = require( '@stdlib/blas-ext-base-ztriu' );
+ztriu = require( 'https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-ztriu@umd/browser.js' )
+```
+
+To vendor stdlib functionality and avoid installing dependency trees for Node.js, you can use the UMD server build:
+
+```javascript
+var ztriu = require( 'path/to/vendor/umd/blas-ext-base-ztriu/index.js' )
+```
+
+To include the bundle in a webpage,
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-ztriu@umd/browser.js"></script>
+```
+
+If no recognized module system is present, access bundle contents via the global scope:
+
+```html
+<script type="text/javascript">
+(function () {
+    window.ztriu;
+})();
+</script>
 ```
 
 #### ztriu( order, M, N, k, A, LDA, B, LDB )
@@ -187,13 +193,18 @@ ztriu.ndarray( 2, 2, 0, A, 2, 1, 0, B, 2, 1, 2 );
 
 <!-- eslint no-undef: "error" -->
 
-```javascript
-var ndarray2array = require( '@stdlib/ndarray-base-to-array' );
-var uniform = require( '@stdlib/random-array-discrete-uniform' );
-var Complex128Array = require( '@stdlib/array-complex128' );
-var numel = require( '@stdlib/ndarray-base-numel' );
-var shape2strides = require( '@stdlib/ndarray-base-shape2strides' );
-var ztriu = require( '@stdlib/blas-ext-base-ztriu' );
+```html
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/ndarray-base-to-array@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/random-array-discrete-uniform@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-complex128@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/ndarray-base-numel@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/ndarray-base-shape2strides@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-ztriu@umd/browser.js"></script>
+<script type="text/javascript">
+(function () {
 
 var shape = [ 5, 8 ];
 var order = 'row-major';
@@ -212,6 +223,11 @@ console.log( ndarray2array( B, shape, strides, 0, order ) );
 
 ztriu( order, shape[ 0 ], shape[ 1 ], 0, A, strides[ 0 ], B, strides[ 0 ] );
 console.log( ndarray2array( B, shape, strides, 0, order ) );
+
+})();
+</script>
+</body>
+</html>
 ```
 
 </section>
@@ -220,157 +236,7 @@ console.log( ndarray2array( B, shape, strides, 0, order ) );
 
 <!-- C interface documentation. -->
 
-* * *
 
-<section class="c">
-
-## C APIs
-
-<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
-
-<section class="intro">
-
-</section>
-
-<!-- /.intro -->
-
-<!-- C usage documentation. -->
-
-<section class="usage">
-
-### Usage
-
-```c
-#include "stdlib/blas/ext/base/ztriu.h"
-```
-
-#### stdlib_strided_ztriu( layout, M, N, k, \*A, LDA, \*B, LDB )
-
-Copies the upper triangular part of a double-precision complex floating-point matrix `A` to another matrix `B`.
-
-```c
-#include "stdlib/blas/base/shared.h"
-#include "stdlib/complex/float64/ctor.h"
-
-const double A[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
-double B[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-stdlib_strided_ztriu( CblasRowMajor, 2, 2, 0, (stdlib_complex128_t *)A, 2, (stdlib_complex128_t *)B, 2 );
-```
-
-The function accepts the following arguments:
-
--   **layout**: `[in] CBLAS_LAYOUT` storage layout.
--   **M**: `[in] CBLAS_INT` number of rows in `A`.
--   **N**: `[in] CBLAS_INT` number of columns in `A`.
--   **k**: `[in] CBLAS_INT` diagonal below which to ignore.
--   **A**: `[in] stdlib_complex128_t*` input matrix.
--   **LDA**: `[in] CBLAS_INT` stride of the first dimension of `A` (a.k.a., leading dimension of the matrix `A`).
--   **B**: `[out] stdlib_complex128_t*` output matrix.
--   **LDB**: `[in] CBLAS_INT` stride of the first dimension of `B` (a.k.a., leading dimension of the matrix `B`).
-
-```c
-void API_SUFFIX(stdlib_strided_ztriu)( const CBLAS_LAYOUT layout, const CBLAS_INT M, const CBLAS_INT N, const CBLAS_INT k, const stdlib_complex128_t *A, const CBLAS_INT LDA, stdlib_complex128_t *B, const CBLAS_INT LDB );
-```
-
-#### stdlib_strided_ztriu_ndarray( M, N, k, \*A, sa1, sa2, oa, \*B, sb1, sb2, ob )
-
-Copies the upper triangular part of a double-precision complex floating-point matrix `A` to another matrix `B` using alternative indexing semantics.
-
-```c
-#include "stdlib/blas/base/shared.h"
-#include "stdlib/complex/float64/ctor.h"
-
-const double A[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
-double B[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-stdlib_strided_ztriu_ndarray( 2, 2, 0, (stdlib_complex128_t *)A, 2, 1, 0, (stdlib_complex128_t *)B, 2, 1, 0 );
-```
-
-The function accepts the following arguments:
-
--   **M**: `[in] CBLAS_INT` number of rows in `A`.
--   **N**: `[in] CBLAS_INT` number of columns in `A`.
--   **k**: `[in] CBLAS_INT` diagonal below which to ignore.
--   **A**: `[in] stdlib_complex128_t*` input matrix.
--   **sa1**: `[in] CBLAS_INT` stride of the first dimension of `A`.
--   **sa2**: `[in] CBLAS_INT` stride of the second dimension of `A`.
--   **oa**: `[in] CBLAS_INT` starting index for `A`.
--   **B**: `[out] stdlib_complex128_t*` output matrix.
--   **sb1**: `[in] CBLAS_INT` stride of the first dimension of `B`.
--   **sb2**: `[in] CBLAS_INT` stride of the second dimension of `B`.
--   **ob**: `[in] CBLAS_INT` starting index for `B`.
-
-```c
-void API_SUFFIX(stdlib_strided_ztriu_ndarray)( const CBLAS_INT M, const CBLAS_INT N, const CBLAS_INT k, const stdlib_complex128_t *A, const CBLAS_INT strideA1, const CBLAS_INT strideA2, const CBLAS_INT offsetA, stdlib_complex128_t *B, const CBLAS_INT strideB1, const CBLAS_INT strideB2, const CBLAS_INT offsetB );
-```
-
-</section>
-
-<!-- /.usage -->
-
-<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-<section class="notes">
-
-</section>
-
-<!-- /.notes -->
-
-<!-- C API usage examples. -->
-
-<section class="examples">
-
-### Examples
-
-```c
-#include "stdlib/blas/ext/base/ztriu.h"
-#include "stdlib/blas/base/shared.h"
-#include "stdlib/complex/float64/ctor.h"
-#include <stdio.h>
-
-int main( void ) {
-    // Define a 3x3 input matrix stored in row-major order:
-    const double A[] = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0 };
-
-    // Define a 3x3 output matrix:
-    double B[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-    // Specify the number of elements along each dimension of `A`:
-    const CBLAS_INT M = 3;
-    const CBLAS_INT N = 3;
-
-    // Copy the upper triangular part of `A` to `B`:
-    stdlib_strided_ztriu( CblasRowMajor, M, N, 0, (stdlib_complex128_t *)A, N, (stdlib_complex128_t *)B, N );
-
-    // Print the result:
-    for ( int i = 0; i < M; i++ ) {
-        for ( int j = 0; j < N; j++ ) {
-            int idx = ( (i*N) + j ) * 2;
-            printf( "B[ %i,%i ] = %lf + %lfi\n", i, j, B[ idx ], B[ idx+1 ] );
-        }
-    }
-
-    // Copy the upper triangular part of `A`, including the first sub-diagonal, to `B` using alternative indexing semantics:
-    stdlib_strided_ztriu_ndarray( M, N, -1, (stdlib_complex128_t *)A, N, 1, 0, (stdlib_complex128_t *)B, N, 1, 0 );
-
-    // Print the result:
-    for ( int i = 0; i < M; i++ ) {
-        for ( int j = 0; j < N; j++ ) {
-            int idx = ( (i*N) + j ) * 2;
-            printf( "B[ %i,%i ] = %lf + %lfi\n", i, j, B[ idx ], B[ idx+1 ] );
-        }
-    }
-}
-```
-
-</section>
-
-<!-- /.examples -->
-
-</section>
-
-<!-- /.c -->
 
 <section class="references">
 
