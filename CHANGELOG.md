@@ -4,7 +4,7 @@
 
 <section class="release" id="unreleased">
 
-## Unreleased (2026-08-11)
+## Unreleased (2026-09-01)
 
 <section class="features">
 
@@ -22,6 +22,7 @@
 
 <details>
 
+-   [`2e4be80`](https://github.com/stdlib-js/stdlib/commit/2e4be807185e1cc54fd96361f9432ad6f211ff92) - **refactor:** add support for enums in `blas/ext/base/*triu` [(#14838)](https://github.com/stdlib-js/stdlib/pull/14838) _(by Kaustubh Patange)_
 -   [`d4eb315`](https://github.com/stdlib-js/stdlib/commit/d4eb31523d94dbbcd4477ac82b36fbbc1b51e157) - **docs:** remove unused header in examples _(by Athan Reines)_
 -   [`3d19e26`](https://github.com/stdlib-js/stdlib/commit/3d19e26c5ac90f6e1902ee773e06728fe7d0ec6d) - **chore:** clean-up [(#13914)](https://github.com/stdlib-js/stdlib/pull/13914) _(by Philipp Burckhardt)_
 -   [`ee75563`](https://github.com/stdlib-js/stdlib/commit/ee7556317b4e4441f933eddb7758d1ed03dad6ee) - **feat:** add `blas/ext/base/ztriu` [(#13900)](https://github.com/stdlib-js/stdlib/pull/13900) _(by Kaustubh Patange, Athan Reines)_
